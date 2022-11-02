@@ -1,0 +1,2 @@
+h5py==3.7.0
+pdfplumber==0.7.5
