@@ -14,8 +14,8 @@ include(FetchContent)
 if(NOT DEFINED slicersources_SOURCE_DIR)
   # Download Slicer sources and set variables slicersources_SOURCE_DIR and slicersources_BINARY_DIR
   FetchContent_Populate(slicersources
-    GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/Slicer/Slicer
-    GIT_TAG        v5.0.3
+    GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/simonoxen/Slicer
+    GIT_TAG        SlicerForLeadDBS
     GIT_PROGRESS   1
     )
 else()
@@ -188,23 +188,11 @@ set(${extension_name}_SOURCE_DIR "${CMAKE_BINARY_DIR}/${extension_name}")
 FetchContent_Populate(${extension_name}
  SOURCE_DIR     ${${extension_name}_SOURCE_DIR}
  GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/netstim/SlicerNetstim.git
- GIT_TAG        master
+ GIT_TAG        no_scripted_modules
  GIT_PROGRESS   1
  QUIET
  )
 list(APPEND Slicer_EXTENSION_SOURCE_DIRS ${${extension_name}_SOURCE_DIR})
-
-# SlicerANTs
-# set(extension_name "SlicerANTs")
-# set(${extension_name}_SOURCE_DIR "${CMAKE_BINARY_DIR}/${extension_name}")
-# FetchContent_Populate(${extension_name}
-#  SOURCE_DIR     ${${extension_name}_SOURCE_DIR}
-#  GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/netstim/SlicerANTs.git
-#  GIT_TAG        master
-#  GIT_PROGRESS   1
-#  QUIET
-#  )
-# list(APPEND Slicer_EXTENSION_SOURCE_DIRS ${${extension_name}_SOURCE_DIR})
 
 # Add Slicer sources
 add_subdirectory(${slicersources_SOURCE_DIR} ${slicersources_BINARY_DIR})
