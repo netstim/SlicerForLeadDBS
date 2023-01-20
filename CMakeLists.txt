@@ -188,7 +188,7 @@ set(${extension_name}_SOURCE_DIR "${CMAKE_BINARY_DIR}/${extension_name}")
 FetchContent_Populate(${extension_name}
  SOURCE_DIR     ${${extension_name}_SOURCE_DIR}
  GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/netstim/SlicerNetstim.git
- GIT_TAG        no_scripted_modules
+ GIT_TAG        cli_modules_only
  GIT_PROGRESS   1
  QUIET
  )
