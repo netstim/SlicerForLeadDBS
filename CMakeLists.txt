@@ -94,7 +94,7 @@ if(WIN32)
 endif()
 
 option(Slicer_BUILD_DICOM_SUPPORT               "Build application with DICOM support"                ON)
-option(Slicer_BUILD_DIFFUSION_SUPPORT           "Build application with Diffusion support"            OFF)
+option(Slicer_BUILD_DIFFUSION_SUPPORT           "Build application with Diffusion support"            ON)
 option(Slicer_BUILD_EXTENSIONMANAGER_SUPPORT    "Build application with ExtensionManager support"     OFF)
 option(Slicer_BUILD_APPLICATIONUPDATE_SUPPORT   "Build Slicer with application update support"        OFF)
 option(Slicer_BUILD_MULTIVOLUME_SUPPORT         "Build application with MultiVolume support"          OFF)
@@ -112,7 +112,7 @@ option(Slicer_BUILD_SurfaceToolbox              "Build application with SurfaceT
 # Enable Slicer built-in modules
 set(Slicer_CLIMODULES_ENABLED
   # ResampleDTIVolume             # Needed by ResampleScalarVectorDWIVolume
-  # ResampleScalarVectorDWIVolume # Depends on DiffusionApplications, needed by CropVolume
+  ResampleScalarVectorDWIVolume # Depends on DiffusionApplications, needed by CropVolume
   )
 set(Slicer_QTLOADABLEMODULES_ENABLED
   )
@@ -125,7 +125,6 @@ set(Slicer_CLIMODULES_DISABLED
 set(Slicer_QTLOADABLEMODULES_DISABLED
   SceneViews
   SlicerWelcome
-  ViewControllers
   )
 set(Slicer_QTSCRIPTEDMODULES_DISABLED
   DataProbe
@@ -189,6 +188,30 @@ FetchContent_Populate(${extension_name}
  SOURCE_DIR     ${${extension_name}_SOURCE_DIR}
  GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/netstim/SlicerNetstim.git
  GIT_TAG        cli_modules_only
+ GIT_PROGRESS   1
+ QUIET
+ )
+list(APPEND Slicer_EXTENSION_SOURCE_DIRS ${${extension_name}_SOURCE_DIR})
+
+# SlicerDMRI
+set(extension_name "SlicerDMRI")
+set(${extension_name}_SOURCE_DIR "${CMAKE_BINARY_DIR}/${extension_name}")
+FetchContent_Populate(${extension_name}
+ SOURCE_DIR     ${${extension_name}_SOURCE_DIR}
+ GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/simonoxen/SlicerDMRI.git
+ GIT_TAG        custom-app-build
+ GIT_PROGRESS   1
+ QUIET
+ )
+list(APPEND Slicer_EXTENSION_SOURCE_DIRS ${${extension_name}_SOURCE_DIR})
+
+# SlicerANTs
+set(extension_name "SlicerANTs")
+set(${extension_name}_SOURCE_DIR "${CMAKE_BINARY_DIR}/${extension_name}")
+FetchContent_Populate(${extension_name}
+ SOURCE_DIR     ${${extension_name}_SOURCE_DIR}
+ GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/netstim/SlicerANTs.git
+ GIT_TAG        master
  GIT_PROGRESS   1
  QUIET
  )
