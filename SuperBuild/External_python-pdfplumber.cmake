@@ -1,7 +1,14 @@
-set(proj python-netstim-requirements)
+set(proj python-pdfplumber)
 
 # Set dependency list
-set(${proj}_DEPENDENCIES python python-numpy python-scipy python-pip)
+set(${proj}_DEPENDENCIES
+  python
+  python-ensurepip
+  python-numpy
+  python-pip
+  python-setuptools
+  python-wheel
+  )
 
 if(NOT DEFINED Slicer_USE_SYSTEM_${proj})
   set(Slicer_USE_SYSTEM_${proj} ${Slicer_USE_SYSTEM_python})
@@ -11,7 +18,7 @@ endif()
 ExternalProject_Include_Dependencies(${proj} PROJECT_VAR proj DEPENDS_VAR ${proj}_DEPENDENCIES)
 
 if(Slicer_USE_SYSTEM_${proj})
-  foreach(module_name IN ITEMS h5py pdfplumber)
+  foreach(module_name IN ITEMS scipy)
     ExternalProject_FindPythonPackage(
       MODULE_NAME "${module_name}"
       REQUIRED
@@ -20,6 +27,8 @@ if(Slicer_USE_SYSTEM_${proj})
 endif()
 
 if(NOT Slicer_USE_SYSTEM_${proj})
+  set(requirements_file ${CMAKE_BINARY_DIR}/${proj}-requirements.txt)
+  file(WRITE ${requirements_file} pdfplumber==0.7.5)
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
@@ -28,7 +37,7 @@ if(NOT Slicer_USE_SYSTEM_${proj})
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
-    INSTALL_COMMAND ${PYTHON_EXECUTABLE} -m pip install -r ${SlicerForLeadDBS_SOURCE_DIR}/SuperBuild/netstim-requirements.txt
+    INSTALL_COMMAND ${PYTHON_EXECUTABLE} -m pip install -r ${requirements_file}
     LOG_INSTALL 1
     DEPENDS
       ${${proj}_DEPENDENCIES}
@@ -41,3 +50,4 @@ if(NOT Slicer_USE_SYSTEM_${proj})
 else()
   ExternalProject_Add_Empty(${proj} DEPENDS ${${proj}_DEPENDENCIES})
 endif()
+

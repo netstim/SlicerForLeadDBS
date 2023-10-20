@@ -47,7 +47,7 @@ int SlicerAppMain(int argc, char* argv[])
 
   if (!window.isNull())
     {
-    QString windowTitle = QString("%1 %2").arg(Slicer_MAIN_PROJECT_APPLICATION_NAME).arg(Slicer_MAIN_PROJECT_VERSION_FULL);
+    QString windowTitle = "Slicer For LeadDBS";
     window->setWindowTitle(windowTitle);
     }
 

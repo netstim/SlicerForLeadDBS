@@ -13,21 +13,13 @@ Follow Slicer developer guidelines for building this app.
 
 ## Patch
 
-Given the problems with h5py in linux (see [here](https://discourse.slicer.org/t/slicer-crashes-when-creating-h5-file/19733)), run the following to patch the package.
+Still some issues when fixing h5py rpath. To do this manually:
 
 ```bash
-cd release
-export S4L_LINUX=SlicerForLeadDBS-0.1.0-2023-10-09-linux-amd64
-unzip $S4L_LINUX.zip
-cp libitkhdf5_cpp.so $S4L_LINUX/lib/SlicerForLeadDBS-5.2/libitkhdf5_cpp-shared-5.3.so
-cp libitkhdf5.so $S4L_LINUX/lib/SlicerForLeadDBS-5.2/libitkhdf5-shared-5.3.so
-cp libitkhdf5.so.1 $S4L_LINUX/lib/SlicerForLeadDBS-5.2/libitkhdf5-shared-5.3.so.1
-cp libitkhdf5_cpp.so.1 $S4L_LINUX/lib/SlicerForLeadDBS-5.2/libitkhdf5_cpp-shared-5.3.so.1
-zip -u $S4L_LINUX.zip $S4L_LINUX/lib/SlicerForLeadDBS-5.2/libitkhdf5_cpp-shared-5.3.so
-zip -u $S4L_LINUX.zip $S4L_LINUX/lib/SlicerForLeadDBS-5.2/libitkhdf5-shared-5.3.so
-zip -u $S4L_LINUX.zip $S4L_LINUX/lib/SlicerForLeadDBS-5.2/libitkhdf5-shared-5.3.so.1
-zip -u $S4L_LINUX.zip $S4L_LINUX/lib/SlicerForLeadDBS-5.2/libitkhdf5_cpp-shared-5.3.so.1
-rm -fr $S4L_LINUX
+cd ZIP
+for x in SlicerForLeadDBS-0.1.0-2023-10-13-macosx-amd64/SlicerForLeadDBS.app/Contents/lib/Python/lib/python3.9/site-packages/h5py/*.so; do install_name_tool -change  @rpath/libhdf5_hl.200.dylib @rpath/lib/SlicerForLeadDBS-5.4/libhdf5_hl.200.dylib $x; done
+for x in SlicerForLeadDBS-0.1.0-2023-10-13-macosx-amd64/SlicerForLeadDBS.app/Contents/lib/Python/lib/python3.9/site-packages/h5py/*.so; do install_name_tool -change  @rpath/libhdf5.200.dylib @rpath/lib/SlicerForLeadDBS-5.4/libhdf5.200.dylib $x; done
+zip -r SlicerForLeadDBS-0.1.0-2023-10-13-macosx-amd64.zip SlicerForLeadDBS-0.1.0-2023-10-13-macosx-amd64
 ```
 
 ## Release
