@@ -9,11 +9,19 @@ It includes the cli-modules from SlicerNetstim extension and other dependencies 
 
 ## Build
 
-Follow Slicer developer guidelines for building this app.
+Follow Slicer developer guidelines to build this app.
 
-## Patch
+### Known errors
 
-Still some issues when fixing h5py rpath. To do this manually:
+For some reason local build fails in Windows beacuse of a problem in LibFFI project. Solution is to build the project in Debug configuration; copy the `debug.obj` from `C:\S4L\LibFFI-build\objlib.dir\Debug` to `C:\S4L\LibFFI-build\objlib.dir\Release`; and build again in Release configuration
+
+## Package
+
+Follow Slicer developer guidelines to package this app.
+
+### Known errors
+
+Still some issues when fixing h5py rpath in macos. Manuall solution:
 
 ```bash
 cd ZIP
