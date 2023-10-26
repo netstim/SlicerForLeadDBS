@@ -1,10 +1,9 @@
-set(proj python-pdfplumber)
+set(proj python-cython)
 
 # Set dependency list
 set(${proj}_DEPENDENCIES
   python
   python-ensurepip
-  python-numpy
   python-pip
   python-setuptools
   python-wheel
@@ -17,18 +16,9 @@ endif()
 # Include dependent projects if any
 ExternalProject_Include_Dependencies(${proj} PROJECT_VAR proj DEPENDS_VAR ${proj}_DEPENDENCIES)
 
-if(Slicer_USE_SYSTEM_${proj})
-  foreach(module_name IN ITEMS pdfplumber)
-    ExternalProject_FindPythonPackage(
-      MODULE_NAME "${module_name}"
-      REQUIRED
-      )
-  endforeach()
-endif()
-
 if(NOT Slicer_USE_SYSTEM_${proj})
   set(requirements_file ${CMAKE_BINARY_DIR}/${proj}-requirements.txt)
-  file(WRITE ${requirements_file} pdfplumber==0.7.5)
+  file(WRITE ${requirements_file} Cython==0.29.36)
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}

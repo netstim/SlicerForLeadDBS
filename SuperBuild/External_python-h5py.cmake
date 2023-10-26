@@ -7,7 +7,7 @@ set(${proj}_DEPENDENCIES
   python-numpy
   python-pip
   python-setuptools
-  python-wheel
+  python-cython
   )
 
 if(NOT DEFINED Slicer_USE_SYSTEM_${proj})
@@ -29,8 +29,7 @@ endif()
 
 if(NOT Slicer_USE_SYSTEM_${proj})
 
-  set(requirements_file ${CMAKE_BINARY_DIR}/${proj}-requirements.txt)
-  file(WRITE ${requirements_file} h5py==3.10.0)
+  set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
 
   set(_env_script ${CMAKE_BINARY_DIR}/${proj}_Env.cmake)
   ExternalProject_Write_SetPythonSetupEnv_Commands(${_env_script})
@@ -39,26 +38,39 @@ if(NOT Slicer_USE_SYSTEM_${proj})
   "#------------------------------------------------------------------------------
   set(ENV{HDF5_LIBDIR} \"${HDF5_LIB_DIR}\")
   set(ENV{HDF5_INCLUDEDIR} \"${HDF5_INCLUDE_DIR}\")
+  set(ENV{H5PY_SETUP_REQUIRES} \"0\")
   ")
 
   set(_install_script ${CMAKE_BINARY_DIR}/${proj}_install_step.cmake)
   file(WRITE ${_install_script}
   "include(\"${_env_script}\")
-  set(${proj}_WORKING_DIR \"${CMAKE_BINARY_DIR}/${proj}\")
-  ExternalProject_Execute(${proj} \"install\" \"${PYTHON_EXECUTABLE}\" \"-m\" \"pip\" \"install\" \"--no-binary=h5py\" \"-r\" \"${requirements_file}\")
+  set(${proj}_WORKING_DIR \"${EP_SOURCE_DIR}\")
+  ExternalProject_Execute(${proj} \"install\" \"${PYTHON_EXECUTABLE}\" \"-m\" \"pip\" \"install\" \".\" \"--no-binary\" \":all:\" \"--no-deps\" \"--no-build-isolation\")
   ")
+
+  ExternalProject_SetIfNotDefined(
+    Slicer_${proj}_GIT_REPOSITORY
+    "${EP_GIT_PROTOCOL}://github.com/h5py/h5py.git"
+    QUIET
+    )
+
+  ExternalProject_SetIfNotDefined(
+    Slicer_${proj}_GIT_TAG
+    "3.10.0" 
+    QUIET
+    )
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
-    DOWNLOAD_COMMAND ""
-    SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj}
+    SOURCE_DIR ${EP_SOURCE_DIR}
+    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
+    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ${CMAKE_COMMAND} -P ${_install_script}
     LOG_INSTALL 1
-    DEPENDS
-      ${${proj}_DEPENDENCIES}
+    DEPENDS ${${proj}_DEPENDENCIES}
     )
 
   ExternalProject_GenerateProjectDescription_Step(${proj}

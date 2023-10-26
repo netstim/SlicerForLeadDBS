@@ -47,6 +47,7 @@ include(ExternalProjectDependency)
 
 # Additional Slicer dependencies looked up in EXTERNAL_PROJECT_ADDITIONAL_DIR
 set(Slicer_ADDITIONAL_DEPENDENCIES
+  python-cython
   python-h5py
   python-pdfplumber
   )
