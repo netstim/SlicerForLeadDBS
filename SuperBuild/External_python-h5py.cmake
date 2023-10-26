@@ -38,8 +38,7 @@ if(NOT Slicer_USE_SYSTEM_${proj})
 
   file(APPEND ${_env_script}
   "#------------------------------------------------------------------------------
-  set(ENV{HDF5_LIBDIR} \"${HDF5_LIB_DIR}\")
-  set(ENV{HDF5_INCLUDEDIR} \"${HDF5_INCLUDE_DIR}\")
+  set(ENV{HDF5_DIR} \"${HDF5_INSTALL_DIR}\")
   set(ENV{H5PY_SETUP_REQUIRES} \"0\")
   ")
 
