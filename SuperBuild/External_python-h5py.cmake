@@ -2,11 +2,13 @@ set(proj python-h5py)
 
 # Set dependency list
 set(${proj}_DEPENDENCIES
+  HDF5
   python
   python-ensurepip
   python-numpy
   python-pip
   python-setuptools
+  python-wheel
   python-cython
   )
 
