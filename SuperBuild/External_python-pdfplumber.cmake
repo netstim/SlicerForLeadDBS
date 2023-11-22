@@ -28,7 +28,7 @@ endif()
 
 if(NOT Slicer_USE_SYSTEM_${proj})
   set(requirements_file ${CMAKE_BINARY_DIR}/${proj}-requirements.txt)
-  file(WRITE ${requirements_file} pdfplumber==0.7.5)
+  file(WRITE ${requirements_file} pdfplumber==0.10.3)
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
