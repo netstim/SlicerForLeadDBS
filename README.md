@@ -25,9 +25,9 @@ Still some issues when fixing h5py rpath in macos. Manuall solution:
 
 ```bash
 cd ZIP
-for x in SlicerForLeadDBS-0.1.0-2023-10-26-macosx-amd64/SlicerForLeadDBS.app/Contents/lib/Python/lib/python3.9/site-packages/h5py/*.so; do install_name_tool -change  @rpath/libhdf5_hl.200.dylib @rpath/lib/SlicerForLeadDBS-5.4/libhdf5_hl.200.dylib $x; done
-for x in SlicerForLeadDBS-0.1.0-2023-10-26-macosx-amd64/SlicerForLeadDBS.app/Contents/lib/Python/lib/python3.9/site-packages/h5py/*.so; do install_name_tool -change  @rpath/libhdf5.200.dylib @rpath/lib/SlicerForLeadDBS-5.4/libhdf5.200.dylib $x; done
-zip -r SlicerForLeadDBS-0.1.0-2023-10-26-macosx-amd64.zip SlicerForLeadDBS-0.1.0-2023-10-26-macosx-amd64
+for x in SlicerForLeadDBS-0.1.0-2023-11-22-macosx-amd64/SlicerForLeadDBS.app/Contents/lib/Python/lib/python3.9/site-packages/h5py/*.so; do install_name_tool -change  @rpath/libhdf5_hl.200.dylib @rpath/lib/SlicerForLeadDBS-5.2/libhdf5_hl.200.dylib $x; done
+for x in SlicerForLeadDBS-0.1.0-2023-11-22-macosx-amd64/SlicerForLeadDBS.app/Contents/lib/Python/lib/python3.9/site-packages/h5py/*.so; do install_name_tool -change  @rpath/libhdf5.200.dylib @rpath/lib/SlicerForLeadDBS-5.2/libhdf5.200.dylib $x; done
+zip -r SlicerForLeadDBS-0.1.0-2023-11-22-macosx-amd64.zip SlicerForLeadDBS-0.1.0-2023-11-22-macosx-amd64
 ```
 
 ## Release
@@ -35,5 +35,5 @@ zip -r SlicerForLeadDBS-0.1.0-2023-10-26-macosx-amd64.zip SlicerForLeadDBS-0.1.0
 Using github cli to create releases:
 
 ```bash
-gh release create "v231026-beta" release/*.zip
+gh release create "v231122-beta" release/*.zip
 ```
